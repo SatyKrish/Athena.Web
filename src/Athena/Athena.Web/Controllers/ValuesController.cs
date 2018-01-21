@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System;
 
 namespace Athena.Web.Controllers
 {
@@ -41,15 +42,16 @@ namespace Athena.Web.Controllers
         [HttpGet]
         public string TriangleType(int a, int b, int c)
         {
-            if ((a <= 0 || b <= 0 || c <= 0))
+            if (!IsValid(a, b, c))
                 return "Error";
+            
             if ((a == b) && (a == c))
                 return "Equilateral";
             else if ((a == b) || (a == c) || (b == c))
                 return "Isosceles";
             else
                 return "Scalene";
-        }
+        }        
 
         /// <summary>
         /// Reverses the letters of each word in a sentence.
@@ -72,7 +74,7 @@ namespace Athena.Web.Controllers
         }        
 
         /// <summary>
-        /// Get the fibonacci number for a given index.
+        /// Get the fibonacci number for the given index.
         /// </summary>
         /// <param name="n">The index.</param>
         /// <returns>The fibonacci number.</returns>
@@ -87,6 +89,11 @@ namespace Athena.Web.Controllers
             return GetFibonacci(n - 1) + GetFibonacci(n - 2);
         }
 
+        /// <summary>
+        /// Gets the negafibonacci number for the given index
+        /// </summary>
+        /// <param name="n">The index.</param>
+        /// <returns>The negafibonacci number.</returns>
         private static int GetNegafibonacci(int n)
         {
             return GetFibonacci(n + 2) - GetFibonacci(n + 1);
@@ -100,6 +107,21 @@ namespace Athena.Web.Controllers
         private static string GetReversedWord(string word)
         {
             return new string(word.ToCharArray().Reverse().ToArray());
+        }
+
+        /// <summary>
+        /// Validates triangle inequivality given the length of each sides.
+        /// </summary>
+        /// <param name="a">The length of side a.</param>
+        /// <param name="b">The length of side b.</param>
+        /// <param name="c">The length of side c.</param>
+        /// <returns><see cref="bool"/></returns>
+        private static bool IsValid(int a, int b, int c)
+        {
+            if ((a <= 0 || b <= 0 || c <= 0))
+                return false;
+
+            return (a < b + c) || (b < a + c) || (c < a + b);
         }
     }
 }
