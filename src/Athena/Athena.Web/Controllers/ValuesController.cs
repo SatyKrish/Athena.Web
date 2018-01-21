@@ -13,9 +13,9 @@ namespace Athena.Web.Controllers
         /// <returns>The token.</returns>
         // GET api/Token
         [HttpGet]
-        public string Token()
+        public IActionResult Token()
         {
-            return "value";
+            return Ok("522f95d7-a841-4bfc-9f95-d4e39feec7a4");
         }
 
         /// <summary>
@@ -61,12 +61,17 @@ namespace Athena.Web.Controllers
         /// <returns>The reversed words.</returns>
         // GET api/ReverseWords
         [HttpGet]
-        public string ReverseWords(string sentence)
+        public IActionResult ReverseWords(string sentence)
         {
+            if (string.IsNullOrWhiteSpace(sentence))
+            {
+                return BadRequest("Error");
+            }
+
             var regex = new Regex(@"\s+");
             var words = regex.Split(sentence);
             var reversedWords = words.Select(x => GetReversedWord(x));
-            return string.Join(" ", reversedWords);
+            return Ok(string.Join(" ", reversedWords));
         }        
 
         /// <summary>
