@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Linq;
+﻿using System.Linq;
 using System.Text.RegularExpressions;
-using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Athena.Web.Controllers
 {
@@ -47,10 +46,11 @@ namespace Athena.Web.Controllers
             
             if ((a == b) && (a == c))
                 return "Equilateral";
-            else if ((a == b) || (a == c) || (b == c))
+
+            if ((a == b) || (a == c) || (b == c))
                 return "Isosceles";
-            else
-                return "Scalene";
+
+            return "Scalene";
         }        
 
         /// <summary>
@@ -63,9 +63,7 @@ namespace Athena.Web.Controllers
         public string ReverseWords(string sentence)
         {
             if (string.IsNullOrWhiteSpace(sentence))
-            {
                 return "Error";
-            }
 
             var regex = new Regex(@"\s+");
             var words = regex.Split(sentence);
@@ -121,7 +119,7 @@ namespace Athena.Web.Controllers
             if ((a <= 0 || b <= 0 || c <= 0))
                 return false;
 
-            return (a < b + c) || (b < a + c) || (c < a + b);
+            return !((a >= b + c) || (b >= a + c) || (c >= a + b));
         }
     }
 }
