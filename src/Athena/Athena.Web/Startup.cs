@@ -36,9 +36,13 @@ namespace Athena.Web
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info { Title = "Athena Web", Version = "v1" });
+#if DEBUG
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, "Athena.Web.xml");
                 c.IncludeXmlComments(xmlPath);
-            });            
+#endif
+            });
+
+            services.AddCors();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

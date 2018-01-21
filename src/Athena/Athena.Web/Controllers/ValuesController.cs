@@ -25,12 +25,9 @@ namespace Athena.Web.Controllers
         /// <returns>The fibonacci number.</returns>
         // POST api/Fibonacci
         [HttpGet]
-        public IActionResult Fibonacci(int n)
+        public int Fibonacci(int n)
         {
-            if (n <= 0)
-                return BadRequest("Error");
-
-            return Ok(GetFibonacci(n));
+            return GetFibonacci(n);
         }
 
         /// <summary>
@@ -42,16 +39,16 @@ namespace Athena.Web.Controllers
         /// <returns>The type of triangle.</returns>
         // PUT api/TriangleType
         [HttpGet]
-        public IActionResult TriangleType(int a, int b, int c)
+        public string TriangleType(int a, int b, int c)
         {
             if ((a <= 0 || b <= 0 || c <= 0))
-                return BadRequest("Error");
+                return "Error";
             if ((a == b) && (a == c))
-                return Ok("Equilateral");
+                return "Equilateral";
             else if ((a == b) || (a == c) || (b == c))
-                return Ok("Isosceles");
+                return "Isosceles";
             else
-                return Ok("Scalene");
+                return "Scalene";
         }
 
         /// <summary>
@@ -61,17 +58,17 @@ namespace Athena.Web.Controllers
         /// <returns>The reversed words.</returns>
         // GET api/ReverseWords
         [HttpGet]
-        public IActionResult ReverseWords(string sentence)
+        public string ReverseWords(string sentence)
         {
             if (string.IsNullOrWhiteSpace(sentence))
             {
-                return BadRequest("Error");
+                return "Error";
             }
 
             var regex = new Regex(@"\s+");
             var words = regex.Split(sentence);
             var reversedWords = words.Select(x => GetReversedWord(x));
-            return Ok(string.Join(" ", reversedWords));
+            return string.Join(" ", reversedWords);
         }        
 
         /// <summary>
@@ -81,10 +78,18 @@ namespace Athena.Web.Controllers
         /// <returns>The fibonacci number.</returns>
         private static int GetFibonacci(int n)
         {
+            if (n < 0)
+                return GetNegafibonacci(n);
+
             if (n <= 1)
                 return n;
 
             return GetFibonacci(n - 1) + GetFibonacci(n - 2);
+        }
+
+        private static int GetNegafibonacci(int n)
+        {
+            return GetFibonacci(n + 2) - GetFibonacci(n + 1);
         }
 
         /// <summary>
