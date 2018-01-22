@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 
 namespace Athena.Web.Controllers
 {
@@ -89,7 +89,10 @@ namespace Athena.Web.Controllers
 
             foreach (var word in words)
             {
-                replacementStringBuilder.Replace(word, GetReversedWord(word));
+                if (!string.IsNullOrWhiteSpace(word))
+                {
+                    replacementStringBuilder.Replace(word, GetReversedWord(word));
+                }
             }
 
             return Ok(replacementStringBuilder.ToString());
