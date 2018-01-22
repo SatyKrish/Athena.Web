@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Athena.Web.Logging;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Athena.Web
 {
@@ -32,7 +33,8 @@ namespace Athena.Web
             // Add framework services.
             services.AddMvc(options =>
             {
-                options.OutputFormatters.RemoveType<StringOutputFormatter>(); // false by default
+                options.OutputFormatters.RemoveType<StringOutputFormatter>();
+                options.Filters.Add(new ProducesAttribute("application/json", "text/json"));
             });
 
             // Add swagger documentation.

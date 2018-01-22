@@ -2,13 +2,15 @@
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 
 namespace Athena.Web.Controllers
 {
     [Route("api/[action]")]
-    [Produces("application/json", "text/json")]
     public class ValuesController : Controller
     {
+        static readonly Dictionary<int, long> _fibonacciTable = new Dictionary<int, long>();
+
         /// <summary>
         /// Returns the token.
         /// </summary>
@@ -27,9 +29,12 @@ namespace Athena.Web.Controllers
         /// <returns>The fibonacci number.</returns>
         // POST api/Fibonacci
         [HttpGet]
-        public int Fibonacci(int n)
+        public IActionResult Fibonacci(int n)
         {
-            return GetFibonacci(n);
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "The request is invalid." });
+
+            return Ok(GetFibonacci(n));
         }
 
         /// <summary>
@@ -41,18 +46,21 @@ namespace Athena.Web.Controllers
         /// <returns>The type of triangle.</returns>
         // PUT api/TriangleType
         [HttpGet]
-        public string TriangleType(int a, int b, int c)
+        public IActionResult TriangleType(int a, int b, int c)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "The request is invalid." });
+
             if (!IsValid(a, b, c))
-                return "Error";
+                return Ok("Error");
             
             if ((a == b) && (a == c))
-                return "Equilateral";
+                return Ok("Equilateral");
 
             if ((a == b) || (a == c) || (b == c))
-                return "Isosceles";
+                return Ok("Isosceles");
 
-            return "Scalene";
+            return Ok("Scalene");
         }        
 
         /// <summary>
@@ -62,10 +70,13 @@ namespace Athena.Web.Controllers
         /// <returns>The reversed words.</returns>
         // GET api/ReverseWords
         [HttpGet]
-        public string ReverseWords(string sentence)
+        public IActionResult ReverseWords(string sentence)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(new { message = "The request is invalid." });
+
             if (string.IsNullOrWhiteSpace(sentence))
-                return "Error";
+                return Ok("Error");
 
             var regex = new Regex(@"\s+");
             var replacementStringBuilder = new StringBuilder(sentence);
@@ -73,7 +84,7 @@ namespace Athena.Web.Controllers
             var words = regex.Split(sentence);
             if (words != null && words.Length == 0)
             {
-                return sentence;
+                return Ok(sentence);
             }
 
             foreach (var word in words)
@@ -81,7 +92,7 @@ namespace Athena.Web.Controllers
                 replacementStringBuilder.Replace(word, GetReversedWord(word));
             }
 
-            return replacementStringBuilder.ToString();
+            return Ok(replacementStringBuilder.ToString());
         }        
 
         /// <summary>
@@ -89,15 +100,22 @@ namespace Athena.Web.Controllers
         /// </summary>
         /// <param name="n">The index.</param>
         /// <returns>The fibonacci number.</returns>
-        private static int GetFibonacci(int n)
+        private static long GetFibonacci(int n)
         {
-            if (n < 0)
-                return GetNegafibonacci(n);
-
-            if (n <= 1)
+            if (n == 0 || n == 1)
                 return n;
 
-            return GetFibonacci(n - 1) + GetFibonacci(n - 2);
+            if (_fibonacciTable.ContainsKey(n))
+                return _fibonacciTable[n];
+
+            long fibNumber = 0;
+            if (n < 0)
+                fibNumber = GetNegafibonacci(n);
+            else
+                fibNumber = GetFibonacci(n - 1) + GetFibonacci(n - 2);
+
+            _fibonacciTable.Add(n, fibNumber);
+            return fibNumber;
         }
 
         /// <summary>
@@ -105,7 +123,7 @@ namespace Athena.Web.Controllers
         /// </summary>
         /// <param name="n">The index.</param>
         /// <returns>The negafibonacci number.</returns>
-        private static int GetNegafibonacci(int n)
+        private static long GetNegafibonacci(int n)
         {
             return GetFibonacci(n + 2) - GetFibonacci(n + 1);
         }
