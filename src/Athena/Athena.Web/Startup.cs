@@ -1,11 +1,14 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Swashbuckle.AspNetCore.Swagger;
+using Athena.Web.Logging;
 
 namespace Athena.Web
 {
@@ -27,7 +30,10 @@ namespace Athena.Web
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.OutputFormatters.RemoveType<StringOutputFormatter>(); // false by default
+            });
 
             // Add swagger documentation.
             services.AddSwaggerGen(c =>
@@ -47,7 +53,9 @@ namespace Athena.Web
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddFile(@"D:\home\LogFiles\Application\AthenaWeb-{Date}.txt");
 
+            app.UseMiddleware<LoggingMiddleware>();
             app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

@@ -1,10 +1,12 @@
 ﻿using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Athena.Web.Controllers
 {
     [Route("api/[action]")]
+    [Produces("application/json", "text/json")]
     public class ValuesController : Controller
     {
         /// <summary>
@@ -66,9 +68,20 @@ namespace Athena.Web.Controllers
                 return "Error";
 
             var regex = new Regex(@"\s+");
+            var replacementStringBuilder = new StringBuilder(sentence);
+
             var words = regex.Split(sentence);
-            var reversedWords = words.Select(x => GetReversedWord(x));
-            return string.Join(" ", reversedWords);
+            if (words != null && words.Length == 0)
+            {
+                return sentence;
+            }
+
+            foreach (var word in words)
+            {
+                replacementStringBuilder.Replace(word, GetReversedWord(word));
+            }
+
+            return replacementStringBuilder.ToString();
         }        
 
         /// <summary>
@@ -104,6 +117,10 @@ namespace Athena.Web.Controllers
         /// <returns>The reversed word.</returns>
         private static string GetReversedWord(string word)
         {
+            if (word.Length == 1)
+            {
+                return word;
+            }
             return new string(word.ToCharArray().Reverse().ToArray());
         }
 
@@ -114,7 +131,7 @@ namespace Athena.Web.Controllers
         /// <param name="b">The length of side b.</param>
         /// <param name="c">The length of side c.</param>
         /// <returns><see cref="bool"/></returns>
-        private static bool IsValid(int a, int b, int c)
+        private static bool IsValid(long a, long b, long c)
         {
             if ((a <= 0 || b <= 0 || c <= 0))
                 return false;
