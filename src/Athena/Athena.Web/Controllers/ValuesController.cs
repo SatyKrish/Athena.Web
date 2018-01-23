@@ -15,6 +15,7 @@ namespace Athena.Web.Controllers
         /// Returns the token.
         /// </summary>
         /// <returns>The token.</returns>
+        /// <remarks>Returns the token.</remarks>
         // GET api/Token
         [HttpGet]
         public IActionResult Token()
@@ -27,6 +28,7 @@ namespace Athena.Web.Controllers
         /// </summary>
         /// <param name="n">The index.</param>
         /// <returns>The fibonacci number.</returns>
+        /// <remarks>Returns the nth fibonacci number.</remarks>
         // POST api/Fibonacci
         [HttpGet]
         public IActionResult Fibonacci(int n)
@@ -44,6 +46,7 @@ namespace Athena.Web.Controllers
         /// <param name="b">The length of side b.</param>
         /// <param name="c">The length of side c.</param>
         /// <returns>The type of triangle.</returns>
+        /// <remarks>Returns the type of triangle given the lengths of its sides.</remarks>
         // PUT api/TriangleType
         [HttpGet]
         public IActionResult TriangleType(int a, int b, int c)
@@ -61,13 +64,14 @@ namespace Athena.Web.Controllers
                 return Ok("Isosceles");
 
             return Ok("Scalene");
-        }        
+        }
 
         /// <summary>
         /// Reverses the letters of each word in a sentence.
         /// </summary>
         /// <param name="sentence">The sentence.</param>
         /// <returns>The reversed words.</returns>
+        /// <remarks>Reverses the letters of each word in a sentence.</remarks>
         // GET api/ReverseWords
         [HttpGet]
         public IActionResult ReverseWords(string sentence)

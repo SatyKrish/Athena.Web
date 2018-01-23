@@ -1,9 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26430.16
+VisualStudioVersion = 15.0.27130.2024
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Athena.Web", "Athena.Web\Athena.Web.csproj", "{63E6D162-BB8C-428A-8339-0415D5E7E1AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Athena.Web", "Athena.Web\Athena.Web.csproj", "{63E6D162-BB8C-428A-8339-0415D5E7E1AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Athena.Web.Test", "Athena.Web.Test\Athena.Web.Test.csproj", "{808F613D-51D2-4067-9C82-858543273973}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,8 +17,15 @@ Global
 		{63E6D162-BB8C-428A-8339-0415D5E7E1AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63E6D162-BB8C-428A-8339-0415D5E7E1AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63E6D162-BB8C-428A-8339-0415D5E7E1AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{808F613D-51D2-4067-9C82-858543273973}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{808F613D-51D2-4067-9C82-858543273973}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{808F613D-51D2-4067-9C82-858543273973}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{808F613D-51D2-4067-9C82-858543273973}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {165DE928-5C69-4BDA-B6D5-C4F9A3DE8F50}
 	EndGlobalSection
 EndGlobal
