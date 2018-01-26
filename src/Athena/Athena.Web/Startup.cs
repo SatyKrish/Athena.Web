@@ -51,12 +51,12 @@ namespace Athena.Web
             loggerFactory.AddFile(@"D:\home\LogFiles\Application\AthenaWeb-{Date}.txt");
 
             app.UseMiddleware<LoggingMiddleware>();
-            app.UseMvc();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Athena Web V1");
             });
+            app.UseMvc();
         }
     }
 }
